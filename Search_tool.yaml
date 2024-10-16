@@ -1,0 +1,42 @@
+openapi: 3.0.2
+info:
+  title: Process PDF API
+  description: API to process PDF files and generate responses based on queries using Google Cloud Functions.
+  version: 1.0
+servers:
+  - url: https://process-pdf-h6cosg3a7a-uc.a.run.app
+paths:
+  /process_pdf:
+    post:
+      summary: Submit a query to process PDF and get a response
+      operationId: process_pdf
+      parameters:
+        - name: session_id
+          in: question
+          description: ID of session to return
+          required: true
+          schema:
+            $ref: '@dialogflow/sessionId'
+      requestBody:
+        description: Question
+        content:
+          application/json:
+            schema:
+              required:
+                - question
+              type: object
+              properties:
+                drivers_license_number:
+                  type: string
+      responses:
+        '200':
+          description: Successfully got results (may be empty)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: string
